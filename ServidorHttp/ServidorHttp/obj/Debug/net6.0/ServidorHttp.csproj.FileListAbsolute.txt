@@ -1,0 +1,15 @@
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\bin\Debug\net6.0\ServidorHttp.exe
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\bin\Debug\net6.0\ServidorHttp.deps.json
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\bin\Debug\net6.0\ServidorHttp.runtimeconfig.json
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\bin\Debug\net6.0\ServidorHttp.dll
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\bin\Debug\net6.0\ServidorHttp.pdb
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ServidorHttp.csproj.AssemblyReference.cache
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ServidorHttp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ServidorHttp.AssemblyInfoInputs.cache
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ServidorHttp.AssemblyInfo.cs
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ServidorHttp.csproj.CoreCompileInputs.cache
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ServidorHttp.dll
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\refint\ServidorHttp.dll
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ServidorHttp.pdb
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ServidorHttp.genruntimeconfig.cache
+C:\Users\Gruppe\Desktop\Projeto_Escola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ref\ServidorHttp.dll
