@@ -86,10 +86,13 @@ namespace ProjetoEscola.Entities
                 //API trabalhos
                 else if (path == "/trabalho")
                 {
-                    List<Trabalho> trabalhos = Trabalho.GetAll();
-                    data = JsonSerializer.Serialize(trabalhos);
+                    Trabalho trabalhoAtual = Trabalho.GetById(1);
+                    data = JsonSerializer.Serialize(trabalhoAtual);
+                    //List<Trabalho> trabalhos = Trabalho.GetAll();
+                    //data = JsonSerializer.Serialize(trabalhos);
                 }
 
+  
 
                 byte[] buffer = Encoding.UTF8.GetBytes(data);
                 resp.ContentLength64 = buffer.Length;

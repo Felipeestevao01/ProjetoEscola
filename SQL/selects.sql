@@ -62,5 +62,25 @@ FROM
 INNER JOIN
 	matricula ON matricula.id_curso = curso.id AND matricula.id = 2;
 
-
+-- Select para trazer o professor do trabalho especifico.
+SELECT 
+    pessoa.nome,
+    pessoa.sobrenome,
+    pessoa.telefone,
+    pessoa.cpf,
+    pessoa.endereco,
+    pessoa.email,
+    pessoa.data_aniversario,
+    professor.id,
+    professor.salario,
+    trabalho.id as "trabalho_id",
+    descricao,
+    data_trabalho
+FROM
+    pessoa
+        INNER JOIN
+    professor ON pessoa.id = professor.id_pessoa
+        INNER JOIN
+    trabalho ON professor.id = trabalho.id_professor AND trabalho.id = 1;
+	
 

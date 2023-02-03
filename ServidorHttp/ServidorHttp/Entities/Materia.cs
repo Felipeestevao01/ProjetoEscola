@@ -42,6 +42,7 @@ namespace Entities
 
         public static Materia GetById(int id)
         {
+            // Select para buscar a materia especifica.
             string sqlQueryMateria = $"SELECT id, descricao, carga_horaria FROM materia WHERE id = {id};";
             MySqlDataReader reader = BancoDeDados.PreparaQuery(sqlQueryMateria);
 
@@ -55,6 +56,7 @@ namespace Entities
                 (double)linha["carga_horaria"]
             );
 
+            // Select para buscar todos os professores de uma materia especifica.
             string sqlQueryProfessores =
                 "SELECT pessoa.nome, pessoa.sobrenome, pessoa.telefone, pessoa.cpf, " +
                 "pessoa.endereco, pessoa.email, pessoa.data_aniversario, professor.id, professor.salario " +
@@ -85,6 +87,7 @@ namespace Entities
             }
             novaMateria.Professores = listaProfessores;
 
+            // Select para buscar todos os cursos de uma materia especifica.
             string sqlQueryCursos =
                     "SELECT curso.id, curso.nome, curso.carga_horaria, curso.ativo " +
                     "FROM curso " +
@@ -94,10 +97,10 @@ namespace Entities
             MySqlDataReader readerCursos = BancoDeDados.PreparaQuery(sqlQueryCursos);
             DataTable dataTableCursos = new();
             dataTableCursos.Load(readerCursos);
-            List<Curso> listaCursos = new List<Curso>();
+            List<Curso> listaCursos = new();
             foreach(DataRow cursoLinha in dataTableCursos.Rows)
             {
-                Curso cursoAtual = new Curso(
+                Curso cursoAtual = new(
                     (int)cursoLinha["id"],
                     (string)cursoLinha["nome"],
                     (double)cursoLinha["carga_horaria"],

@@ -1,12 +1,6 @@
 ﻿using Dao;
-using Entities;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjetoEscola.Entities
 {
@@ -43,6 +37,7 @@ namespace ProjetoEscola.Entities
             );
             return novaQuestao;
         }
+
         public static List<Questao> GetAll()
         {
             List<Questao> lista = new();

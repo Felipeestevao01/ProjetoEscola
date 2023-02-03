@@ -31,7 +31,5 @@ namespace Entities
             Aluno = aluno;
             Curso = curso;
         }
-
-
     }
 }

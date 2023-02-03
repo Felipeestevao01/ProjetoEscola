@@ -57,7 +57,6 @@ namespace Entities
             return novoAluno;
         }
 
-        
         public List<Matricula> GetMatriculas()
         {
             string sqlQueryMatriculas =
@@ -72,7 +71,7 @@ namespace Entities
 
             foreach (DataRow matriculaLinha in dataTableMatriculas.Rows)
             {
-                Matricula matriculaAtual = new Matricula(
+                Matricula matriculaAtual = new(
                     (int)matriculaLinha["id"],
                     (bool)matriculaLinha["ativa"],
                     this
@@ -101,7 +100,6 @@ namespace Entities
 
         }
 
-    
         public static List<Aluno> GetAll()
         {
             List<Aluno> lista = new();

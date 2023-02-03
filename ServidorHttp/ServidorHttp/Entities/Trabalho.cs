@@ -28,7 +28,15 @@ namespace Entities
 
         public static Trabalho GetById(int id)
         {
-            string sqlQuery = $"SELECT id, descricao, data_trabalho FROM trabalho WHERE id = {id};";
+
+            string sqlQuery = 
+                "SELECT pessoa.nome, pessoa.sobrenome, pessoa.telefone, pessoa.cpf, pessoa.endereco, pessoa.email, pessoa.data_aniversario, " +
+                "professor.id, professor.salario, trabalho.id as \"trabalho_id\", descricao, data_trabalho " +
+                "FROM pessoa " +
+                "INNER JOIN professor ON pessoa.id = professor.id_pessoa " +
+                $"INNER JOIN trabalho ON professor.id = trabalho.id_professor AND trabalho.id = {id};";
+
+
             MySqlDataReader reader = BancoDeDados.PreparaQuery(sqlQuery);
 
             DataTable dataTable = new();
@@ -38,8 +46,19 @@ namespace Entities
             Trabalho novoTrabalho = new(
                 (int)linha["id"],
                 (string)linha["descricao"],
-                (DateTime)linha["data_trabalho"]
-            );
+                (DateTime)linha["data_trabalho"],
+                (Professor) new Professor(
+                    (DateTime)linha["data_aniversario"],
+                    (string)linha["nome"],
+                    (string)linha["sobrenome"],
+                    (string)linha["telefone"],
+                    (string)linha["cpf"],
+                    (string)linha["endereco"],
+                    (string)linha["email"],
+                    (int)linha["trabalho_id"],
+                    (double)linha["salario"]
+            ));
+
             return novoTrabalho;
         }
 
