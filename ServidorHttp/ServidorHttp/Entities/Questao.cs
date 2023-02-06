@@ -55,7 +55,7 @@ namespace ProjetoEscola.Entities
                    (string)linha["descricao"],
                    (string)linha["escolha"]
                );
-                lista.Add(novaQuestao);
+               lista.Add(novaQuestao);
             }
             return lista;
         }

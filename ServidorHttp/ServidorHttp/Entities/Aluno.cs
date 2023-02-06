@@ -6,21 +6,21 @@ namespace Entities
 {
     internal class Aluno : Pessoa
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public int NumeroFaltas { get; set; }
         public List<Matricula> Matriculas { get; set; }
         public Aluno()
         {
         }
 
-        public Aluno(DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email, int id, int numeroFaltas)
+        public Aluno(DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email, long id, int numeroFaltas)
             : base(dataAniversario, nome, sobrenome, telefone, cpf, endereco, email)
         {
             Id = id;
             NumeroFaltas = numeroFaltas;
         }
 
-        public Aluno(DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email, int id, int numeroFaltas, List<Matricula> matriculas)
+        public Aluno(DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email, long id, int numeroFaltas, List<Matricula> matriculas)
          : base(dataAniversario, nome, sobrenome, telefone, cpf, endereco, email)
         {
             Id = id;
@@ -127,9 +127,22 @@ namespace Entities
                    (int)linha["id"],
                    (int)linha["numero_falta"]
                );
-                lista.Add(novoAluno);
+               lista.Add(novoAluno);
             }
             return lista;
+        }
+
+        public void Salvar()
+        {
+            Pessoa pessoa = new Pessoa(DataAniversario, Nome, Sobrenome, Telefone, Cpf, Endereco, Email);
+            pessoa.Salvar();
+
+            string sqlInserirAluno =
+                "INSERT INTO aluno (numero_falta, id_pessoa) " +
+                $"VALUES (\"{NumeroFaltas}\", \"{pessoa.Id}\");";
+
+            long idAluno = BancoDeDados.Insert(sqlInserirAluno);
+            this.Id = idAluno;
         }
     }
 }

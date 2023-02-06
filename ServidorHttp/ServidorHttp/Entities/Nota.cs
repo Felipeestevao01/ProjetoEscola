@@ -25,7 +25,14 @@ namespace Entities
 
         public static Nota GetById(int id)
         {
-            string sqlQuery = $"SELECT id, valor_nota FROM nota WHERE id = {id};";
+            string sqlQuery =
+                "SELECT nota.id, valor_nota, pessoa.nome, pessoa.sobrenome, pessoa.telefone, pessoa.cpf, pessoa.endereco, pessoa.email, " +
+                "pessoa.data_aniversario, professor.id as \"professor_id\", professor.salario, trabalho.id as \"trabalho_id\", descricao, data_trabalho " +
+                "FROM nota " +
+                "INNER JOIN pessoa " +
+                "INNER JOIN professor ON pessoa.id = professor.id_pessoa " +
+                $"INNER JOIN trabalho ON professor.id = trabalho.id_professor AND trabalho.id = {id} " +
+                $"WHERE nota.id = {id};";
             MySqlDataReader reader = BancoDeDados.PreparaQuery(sqlQuery);
 
             DataTable dataTable = new();
@@ -34,7 +41,23 @@ namespace Entities
 
             Nota novaNota = new Nota(
                 (int)linha["id"],
-                (double)linha["valor_nota"]
+                (double)linha["valor_nota"],
+                (Trabalho) new Trabalho(
+                    (int)linha["trabalho_id"],
+                    (string)linha["descricao"],
+                    (DateTime)linha["data_trabalho"], 
+                    (Professor) new Professor(
+                        (DateTime)linha["data_aniversario"],
+                        (string)linha["nome"],
+                        (string)linha["sobrenome"],
+                        (string)linha["telefone"],
+                        (string)linha["cpf"],
+                        (string)linha["endereco"],
+                        (string)linha["email"],
+                        (int)linha["professor_id"],
+                        (double)linha["salario"]
+                    )
+                )
             );
             return novaNota;
         }
@@ -43,7 +66,14 @@ namespace Entities
         {
             List<Nota> lista = new();
 
-            string sqlQuery = "SELECT id, valor_nota FROM nota;";
+            string sqlQuery =
+                "SELECT nota.id, valor_nota, pessoa.nome, pessoa.sobrenome, pessoa.telefone, pessoa.cpf, pessoa.endereco, pessoa.email, " +
+                "pessoa.data_aniversario, professor.id as \"professor_id\", professor.salario, trabalho.id as \"trabalho_id\", descricao, data_trabalho " +
+                "FROM nota " +
+                "INNER JOIN pessoa " +
+                "INNER JOIN professor ON pessoa.id = professor.id_pessoa " +
+                $"INNER JOIN trabalho ON professor.id = trabalho.id_professor ";
+
             MySqlDataReader reader = BancoDeDados.PreparaQuery(sqlQuery);
 
             DataTable dataTable = new();
@@ -53,7 +83,23 @@ namespace Entities
             {
                 Nota novaNota = new(
                     (int)linha["id"],
-                    (double)linha["valor_nota"]
+                    (double)linha["valor_nota"],
+                    (Trabalho)new Trabalho(
+                        (int)linha["trabalho_id"],
+                        (string)linha["descricao"],
+                        (DateTime)linha["data_trabalho"],
+                        (Professor)new Professor(
+                            (DateTime)linha["data_aniversario"],
+                            (string)linha["nome"],
+                            (string)linha["sobrenome"],
+                            (string)linha["telefone"],
+                            (string)linha["cpf"],
+                            (string)linha["endereco"],
+                            (string)linha["email"],
+                            (int)linha["professor_id"],
+                            (double)linha["salario"]
+                        )
+                    )
                 );
                 lista.Add(novaNota);
             }

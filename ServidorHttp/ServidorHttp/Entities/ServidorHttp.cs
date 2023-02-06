@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Text;
-using System.Text.Json;
 using Entities;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ProjetoEscola.Entities
 {
@@ -38,61 +39,102 @@ namespace ProjetoEscola.Entities
                 var path = req.RawUrl;
                 string data = "";
 
-                //API alunos
-                if (path == "/aluno")
+                if(req.HttpMethod == "GET")
                 {
-                    Aluno alunoAtual = Aluno.GetById(1);
-                    data = JsonSerializer.Serialize(alunoAtual);
-                    //List<Aluno> alunos = Aluno.GetAll();
-                    //data = JsonSerializer.Serialize(alunos);
+                    //API alunos
+                    if (path == "/aluno")
+                    {
+                        Aluno alunoAtual = Aluno.GetById(1);
+                        data = JsonSerializer.Serialize(alunoAtual);
+                        //List<Aluno> alunos = Aluno.GetAll();
+                        //data = JsonSerializer.Serialize(alunos);
+                    }
+
+                    //API cursos
+                    else if (path == "/curso")
+                    {
+                        List<Curso> cursos = Curso.GetAll();
+                        data = JsonSerializer.Serialize(cursos);
+                    }
+
+                    //API professores
+                    else if (path == "/professor")
+                    {
+                        List<Professor> professores = Professor.GetAll();
+                        data = JsonSerializer.Serialize(professores);
+                    }
+
+                    //API materias
+                    else if (path == "/materia")
+                    {
+                        Materia materiaAtual = Materia.GetById(1);
+                        data = JsonSerializer.Serialize(materiaAtual);
+                    }
+
+                    //API questões
+                    else if (path == "/questao")
+                    {
+                        List<Questao> questoes = Questao.GetAll();
+                        data = JsonSerializer.Serialize(questoes);
+                    }
+
+                    //API notas
+                    else if (path == "/nota")
+                    {
+                        //Nota notaAtual = Nota.GetById(1);
+                        //data = JsonSerializer.Serialize(notaAtual);
+                        List<Nota> notas = Nota.GetAll();
+                        data = JsonSerializer.Serialize(notas);
+                    }
+
+
+                    //API trabalhos
+                    else if (path == "/trabalho")
+                    {
+                        //Trabalho trabalhoAtual = Trabalho.GetById(1);
+                        //data = JsonSerializer.Serialize(trabalhoAtual);
+                        List<Trabalho> trabalhos = Trabalho.GetAll();
+                        data = JsonSerializer.Serialize(trabalhos);
+                    }
                 }
-                
-                //API cursos
-                else if(path == "/curso")
+                else if(req.HttpMethod == "POST")
                 {
-                    List<Curso> cursos = Curso.GetAll();
-                    data = JsonSerializer.Serialize(cursos);
+                    string jsonText;
+
+                    using (var reader = new StreamReader(req.InputStream, req.ContentEncoding))
+                    {
+                        jsonText = reader.ReadToEnd();
+                    }
+
+                    if (path == "/aluno/new")
+                    {
+                        Aluno aluno = JsonConvert.DeserializeObject<Aluno>(jsonText);
+                        aluno.Salvar();
+
+                        data = JsonSerializer.Serialize(aluno);
+                    }
+                    else if (path == "/professor/new")
+                    {
+                        Professor professor = JsonConvert.DeserializeObject<Professor>(jsonText);
+                        professor.Salvar();
+
+                        data = JsonSerializer.Serialize(professor);
+                    }
+                    else if (path == "/curso/new")
+                    {
+                        Curso curso = JsonConvert.DeserializeObject<Curso>(jsonText);
+                        curso.Salvar();
+
+                        data = JsonSerializer.Serialize(curso);
+                    }
+                    else if (path == "/materia/new")
+                    {
+                        Materia materia = JsonConvert.DeserializeObject<Materia>(jsonText);
+                        materia.Salvar();
+
+                        data = JsonSerializer.Serialize(materia);
+                    }
                 }
-
-                //API professores
-                else if (path == "/professor")
-                {
-                    List<Professor> professores = Professor.GetAll();
-                    data = JsonSerializer.Serialize(professores);
-                }
-
-                //API materias
-                else if (path == "/materia")
-                {
-                    Materia materiaAtual = Materia.GetById(1);
-                    data = JsonSerializer.Serialize(materiaAtual);
-                }
-
-                //API questões
-                else if (path == "/questao")
-                {
-                    List<Questao> questoes = Questao.GetAll();
-                    data = JsonSerializer.Serialize(questoes);
-                }
-
-                //API notas
-                else if (path == "/nota")
-                {
-                    List<Nota> notas = Nota.GetAll();
-                    data = JsonSerializer.Serialize(notas);
-                }
-
-
-                //API trabalhos
-                else if (path == "/trabalho")
-                {
-                    Trabalho trabalhoAtual = Trabalho.GetById(1);
-                    data = JsonSerializer.Serialize(trabalhoAtual);
-                    //List<Trabalho> trabalhos = Trabalho.GetAll();
-                    //data = JsonSerializer.Serialize(trabalhos);
-                }
-
-  
 
                 byte[] buffer = Encoding.UTF8.GetBytes(data);
                 resp.ContentLength64 = buffer.Length;

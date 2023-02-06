@@ -6,7 +6,7 @@ namespace Entities
 {
     internal class Curso
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Nome { get; set; }
         public double CargaHoraria { get; set; }
         public bool Ativo { get; set; }
@@ -15,7 +15,14 @@ namespace Entities
         {
         }
 
-        public Curso(int id, string nome, double cargaHoraria, bool ativo)
+        public Curso(string nome, double cargaHoraria, bool ativo)
+        {
+            Nome = nome;
+            CargaHoraria = cargaHoraria;
+            Ativo = ativo;
+        }
+
+        public Curso(long id, string nome, double cargaHoraria, bool ativo)
         {
             Id = id;
             Nome = nome;
@@ -33,7 +40,7 @@ namespace Entities
             dataTable.Load(reader);
             DataRow linha = dataTable.Rows[0];
 
-            Curso novoCurso = new Curso(
+            Curso novoCurso = new(
                 (int)linha["id"],
                 (string)linha["nome"],
                 (double)linha["carga_horaria"],
@@ -63,6 +70,17 @@ namespace Entities
                 lista.Add(novoCurso);
             }
             return lista;
+        }
+
+        public void Salvar()
+        {
+            string sqlInserirCurso =
+                    "INSERT INTO curso (nome, carga_horaria, ativo) " +
+                    $"VALUES " +
+                    $"(\"{Nome}\", {CargaHoraria}, {Ativo}); ";
+
+            long idCurso = BancoDeDados.Insert(sqlInserirCurso);
+            this.Id = idCurso;
         }
     }
 }

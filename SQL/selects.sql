@@ -82,5 +82,80 @@ FROM
     professor ON pessoa.id = professor.id_pessoa
         INNER JOIN
     trabalho ON professor.id = trabalho.id_professor AND trabalho.id = 1;
-	
-
+   
+-- -- Select para trazer todos os trabalhos e seus respectivos professores.
+SELECT 
+    pessoa.nome,
+    pessoa.sobrenome,
+    pessoa.telefone,
+    pessoa.cpf,
+    pessoa.endereco,
+    pessoa.email,
+    pessoa.data_aniversario,
+    professor.id,
+    professor.salario,
+    trabalho.id as "trabalho_id",
+    descricao,
+    data_trabalho
+FROM
+    pessoa
+        INNER JOIN
+    professor ON pessoa.id = professor.id_pessoa
+        INNER JOIN
+    trabalho ON professor.id = trabalho.id_professor;
+		
+-- Selecte em uma nota especifica
+SELECT 
+	nota.id, 
+    valor_nota,
+    pessoa.nome,
+    pessoa.sobrenome,
+    pessoa.telefone,
+    pessoa.cpf,
+    pessoa.endereco,
+    pessoa.email,
+    pessoa.data_aniversario,
+    professor.id as "professor_id",
+    professor.salario,
+    trabalho.id as "trabalho_id",
+    descricao,
+    data_trabalho
+FROM
+	nota
+		INNER JOIN
+    pessoa
+        INNER JOIN
+    professor ON pessoa.id = professor.id_pessoa
+        INNER JOIN
+    trabalho ON professor.id = trabalho.id_professor AND trabalho.id = 1
+		WHERE
+	nota.id = 1;
+    
+    SELECT 
+	nota.id, 
+    valor_nota,
+    pessoa.nome,
+    pessoa.sobrenome,
+    pessoa.telefone,
+    pessoa.cpf,
+    pessoa.endereco,
+    pessoa.email,
+    pessoa.data_aniversario,
+    professor.id,
+    professor.salario,
+    trabalho.id as "trabalho_id",
+    descricao,
+    data_trabalho
+FROM
+	nota
+		INNER JOIN
+    pessoa
+        INNER JOIN
+    professor ON pessoa.id = professor.id_pessoa
+        INNER JOIN
+    trabalho ON professor.id = trabalho.id_professor AND trabalho.id = 1;
+    
+    
+    select * from aluno;
+    SELECT * FROM pessoa;
+    select * FROM curso;

@@ -35,5 +35,12 @@ namespace Dao
             MySqlDataReader reader = command.ExecuteReader();
             return reader;
         }
+
+        public static long Insert(string sqlInsert)
+        {
+            MySqlCommand command = new MySqlCommand(sqlInsert, BancoDeDados.GetConnection());
+            command.ExecuteNonQuery();
+            return command.LastInsertedId;
+        }
     }
 }

@@ -76,3 +76,4 @@ C:\Users\Gruppe\Desktop\ProjetoEscola\ServidorHttp\ServidorHttp\obj\Debug\net6.0
 C:\Users\Gruppe\Desktop\ProjetoEscola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ProjetoEscola.pdb
 C:\Users\Gruppe\Desktop\ProjetoEscola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ProjetoEscola.genruntimeconfig.cache
 C:\Users\Gruppe\Desktop\ProjetoEscola\ServidorHttp\ServidorHttp\obj\Debug\net6.0\ref\ProjetoEscola.dll
+C:\Users\Gruppe\Desktop\ProjetoEscola\ServidorHttp\ServidorHttp\bin\Debug\net6.0\Newtonsoft.Json.dll

@@ -6,14 +6,20 @@ namespace Entities
 {
     internal class Professor : Pessoa
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public double Salario { get; set; }
 
         public Professor()
         {
         }
 
-        public Professor(DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email, int id, double salario)
+        public Professor(DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email, double salario)
+            : base(dataAniversario, nome, sobrenome, telefone, cpf, endereco, email)
+        {
+            Salario = salario;
+        }
+
+        public Professor(DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email, long id, double salario)
             : base(dataAniversario, nome, sobrenome, telefone, cpf, endereco, email)
         {
             Id = id;
@@ -76,6 +82,19 @@ namespace Entities
                 lista.Add(novoProfessor);
             }
             return lista;
+        }
+
+        public void Salvar()
+        {
+            Pessoa pessoa = new Pessoa(DataAniversario, Nome, Sobrenome, Telefone, Cpf, Endereco, Email);
+            pessoa.Salvar();
+
+            string sqlInserirProfessor =
+                "INSERT INTO aluno (numero_falta, id_pessoa) " +
+                $"VALUES (\"{Salario}\", \"{pessoa.Id}\");";
+
+            long idProfessor = BancoDeDados.Insert(sqlInserirProfessor);
+            this.Id = idProfessor;
         }
     }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "/zR7g/5fhgyPDEdIOD3LLF+f3R7clpGGfvsLAEgU9JRBydl5qYA6Uh4qjNdPdqs7OxB3wXy5OezUw6+0/HFumw==",
+  "dgSpecHash": "bwGhID2oEwsslcNGm7FPMA8fReiXdLynlkFKgiUs4dpbQynd0zSG5+6DG/lzzllTtOI7gryXFD8GtrRqrLtUiA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Gruppe\\Desktop\\ProjetoEscola\\ServidorHttp\\ServidorHttp\\ProjetoEscola.csproj",
   "expectedPackageFiles": [
@@ -12,6 +12,7 @@
     "C:\\Users\\Gruppe\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\Gruppe\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Gruppe\\.nuget\\packages\\mysql.data\\8.0.32\\mysql.data.8.0.32.nupkg.sha512",
+    "C:\\Users\\Gruppe\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
     "C:\\Users\\Gruppe\\.nuget\\packages\\portable.bouncycastle\\1.9.0\\portable.bouncycastle.1.9.0.nupkg.sha512",
     "C:\\Users\\Gruppe\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\Gruppe\\.nuget\\packages\\system.configuration.configurationmanager\\4.4.1\\system.configuration.configurationmanager.4.4.1.nupkg.sha512",

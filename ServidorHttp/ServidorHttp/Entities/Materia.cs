@@ -6,7 +6,7 @@ namespace Entities
 {
     internal class Materia
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Nome { get; set; }
         public double CargaHoraria { get; set; }
         public List<Professor> Professores { get; set; }
@@ -16,14 +16,21 @@ namespace Entities
         {
         }
 
-        public Materia(int id, string nome, double cargaHoraria)
+
+        public Materia(string nome, double cargaHoraria)
+        {
+            Nome = nome;
+            CargaHoraria = cargaHoraria;
+        }
+
+        public Materia(long id, string nome, double cargaHoraria)
         {
             Id = id;
             Nome = nome;
             CargaHoraria = cargaHoraria;
         }
 
-        public Materia(int id, string nome, double cargaHoraria, List<Professor> professores)
+        public Materia(long id, string nome, double cargaHoraria, List<Professor> professores)
         {
             Id = id;
             Nome = nome;
@@ -31,7 +38,7 @@ namespace Entities
             Professores = professores;
         }
 
-        public Materia(int id, string nome, double cargaHoraria, List<Professor> professores, List<Curso> cursos)
+        public Materia(long id, string nome, double cargaHoraria, List<Professor> professores, List<Curso> cursos)
         {
             Id = id;
             Nome = nome;
@@ -132,9 +139,21 @@ namespace Entities
                    (double)linha["carga_horaria"]
 
                );
-                lista.Add(novaMateria);
+               lista.Add(novaMateria);
             }
             return lista;
+        }
+
+        public void Salvar()
+        {
+            
+            string sqlInserirMateria =
+                    "INSERT INTO materia " +
+                    "(descricao, carga_horaria, id_professor) " +
+                    $"VALUES (\"{Nome}\", \"{CargaHoraria}\", \"{Professores}\");";
+
+            long idMateria = BancoDeDados.Insert(sqlInserirMateria);
+            this.Id = idMateria;
         }
     }
 }
