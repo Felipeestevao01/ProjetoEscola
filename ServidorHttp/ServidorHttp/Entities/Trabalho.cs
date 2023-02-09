@@ -1,15 +1,20 @@
 ﻿using Dao;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.Globalization;
 
 namespace Entities
 {
     internal class Trabalho
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Descricao { get; set; }
         public DateTime DataTrabalho { get; set; }
         public Professor Professor { get; set; }
+
+        public Trabalho()
+        {
+        }
 
         public Trabalho(int id, string descricao, DateTime dataTrabalho)
         {
@@ -98,6 +103,22 @@ namespace Entities
                 lista.Add(novoTrabalho);
             }
             return lista;
+        }
+
+        public void Salvar()
+        {
+            string sqlInserirTrabalho =
+                "INSERT INTO trabalho(descricao, data_trabalho, id_professor) " +
+                $"VALUES(\"{Descricao}\", \"{DataTrabalho.ToString("yyyy-MM-ddTHH:mm:ss")}\", {Professor.Id});";
+
+            long idTrabalho = BancoDeDados.Insert(sqlInserirTrabalho);
+            this.Id = idTrabalho;
+        }
+
+        public void Deletar()
+        {
+            string sqlDeletarTrabalho = $"DELETE FROM trabalho WHERE id = {Id};";
+            BancoDeDados.Delete(sqlDeletarTrabalho);
         }
     }
 }

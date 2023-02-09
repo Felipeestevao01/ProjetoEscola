@@ -1,14 +1,21 @@
 ﻿using Dao;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.Globalization;
 
 namespace Entities
 {
     internal class Nota
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public double ValorNota { get; set; }
         public Trabalho Trabalho { get; set; }
+        public Aluno Aluno { get; set; }
+
+        public Nota()
+        {
+        }
+        
 
         public Nota(int id, double valorNota)
         {
@@ -21,6 +28,14 @@ namespace Entities
             Id = id;
             ValorNota = valorNota;
             Trabalho = trabalho;
+        }
+
+        public Nota(int id, double valorNota, Trabalho trabalho, Aluno aluno)
+        {
+            Id = id;
+            ValorNota = valorNota;
+            Trabalho = trabalho;
+            Aluno = aluno;
         }
 
         public static Nota GetById(int id)
@@ -104,6 +119,22 @@ namespace Entities
                 lista.Add(novaNota);
             }
             return lista;
+        }
+
+        public void Salvar()
+        {
+            string sqlInserirNota =
+                "INSERT INTO nota (valor_nota, id_trabalho, id_aluno) " +
+                $"VALUES ({ValorNota.ToString(CultureInfo.InvariantCulture)}, {Trabalho.Id}, {Aluno.Id});";
+
+            long idNota = BancoDeDados.Insert(sqlInserirNota);
+            this.Id = idNota;
+        }
+
+        public void Deletar()
+        {
+            string sqlDeletarNota = $"DELETE FROM nota WHERE id = {Id};";
+            BancoDeDados.Delete(sqlDeletarNota);
         }
     }
 }

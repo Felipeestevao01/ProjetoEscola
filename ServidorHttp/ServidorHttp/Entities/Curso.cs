@@ -82,5 +82,11 @@ namespace Entities
             long idCurso = BancoDeDados.Insert(sqlInserirCurso);
             this.Id = idCurso;
         }
+
+        public void Deletar()
+        {
+            string sqlDeletarCurso = $"DELETE FROM curso WHERE id = {Id};";
+            BancoDeDados.Delete(sqlDeletarCurso);
+        }
     }
 }

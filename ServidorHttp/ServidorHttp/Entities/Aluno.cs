@@ -20,6 +20,13 @@ namespace Entities
             NumeroFaltas = numeroFaltas;
         }
 
+        public Aluno(long idPessoa, DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email, long id, int numeroFaltas)
+    : base(idPessoa, dataAniversario, nome, sobrenome, telefone, cpf, endereco, email)
+        {
+            Id = id;
+            NumeroFaltas = numeroFaltas;
+        }
+
         public Aluno(DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email, long id, int numeroFaltas, List<Matricula> matriculas)
          : base(dataAniversario, nome, sobrenome, telefone, cpf, endereco, email)
         {
@@ -28,14 +35,13 @@ namespace Entities
             Matriculas = matriculas;
         }
 
-
-        public static Aluno GetById(int id)
+        public static Aluno GetById(long id)
         {
             string sqlQuery =
                 "SELECT pessoa.nome, pessoa.sobrenome, pessoa.telefone, " +
                 "pessoa.cpf, pessoa.endereco, pessoa.email, pessoa.data_aniversario, " +
-                "aluno.id, aluno.numero_falta FROM pessoa INNER JOIN aluno " +
-                $"WHERE pessoa.id = aluno.id AND aluno.id = {id};";
+                "aluno.id as alunoId, pessoa.id as pessoaId, aluno.numero_falta FROM pessoa INNER JOIN aluno " +
+                $"WHERE pessoa.id = aluno.id_pessoa AND aluno.id = {id};";
 
             MySqlDataReader reader = BancoDeDados.PreparaQuery(sqlQuery);
             DataTable dataTableAlunos = new();
@@ -43,6 +49,7 @@ namespace Entities
             DataRow linha = dataTableAlunos.Rows[0];
 
             Aluno novoAluno = new(
+                (int)linha["pessoaId"],
                 (DateTime)linha["data_aniversario"],
                 (string)linha["nome"],
                 (string)linha["sobrenome"],
@@ -50,7 +57,7 @@ namespace Entities
                 (string)linha["cpf"],
                 (string)linha["endereco"],
                 (string)linha["email"],
-                (int)linha["id"],
+                (int)linha["alunoId"],
                 (int)linha["numero_falta"]
             );
 
@@ -139,10 +146,27 @@ namespace Entities
 
             string sqlInserirAluno =
                 "INSERT INTO aluno (numero_falta, id_pessoa) " +
-                $"VALUES (\"{NumeroFaltas}\", \"{pessoa.Id}\");";
+                $"VALUES (\"{NumeroFaltas}\", \"{pessoa.IdPessoa}\");";
 
             long idAluno = BancoDeDados.Insert(sqlInserirAluno);
             this.Id = idAluno;
+        }
+
+        public void Deletar()
+        {
+            string sqlDeletarAluno = $"DELETE FROM aluno WHERE id = {Id};";
+            BancoDeDados.Delete(sqlDeletarAluno);
+        }
+
+        public void Atualizar()
+        {
+            Aluno alunoBanco = Aluno.GetById(Id);
+            Pessoa pessoa = new Pessoa(alunoBanco.IdPessoa, DataAniversario, Nome, Sobrenome, Telefone, Cpf, Endereco, Email);
+            
+            pessoa.Atualizar();
+
+            string sqlAtualizarAluno = $"UPDATE aluno SET numero_falta = \"{NumeroFaltas}\" WHERE id = \"{Id}\";";
+            BancoDeDados.Update(sqlAtualizarAluno);
         }
     }
 }

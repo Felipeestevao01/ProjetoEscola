@@ -42,5 +42,17 @@ namespace Dao
             command.ExecuteNonQuery();
             return command.LastInsertedId;
         }
+
+        public static long Delete(string sqlDelete)
+        {
+            MySqlCommand command = new MySqlCommand(sqlDelete, BancoDeDados.GetConnection());
+            return command.ExecuteNonQuery();
+        }
+
+        public static long Update(string sqlDelete)
+        {
+            MySqlCommand command = new MySqlCommand(sqlDelete, BancoDeDados.GetConnection());
+            return command.ExecuteNonQuery();
+        }
     }
 }

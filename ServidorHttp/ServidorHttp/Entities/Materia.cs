@@ -146,14 +146,19 @@ namespace Entities
 
         public void Salvar()
         {
-            
             string sqlInserirMateria =
                     "INSERT INTO materia " +
-                    "(descricao, carga_horaria, id_professor) " +
-                    $"VALUES (\"{Nome}\", \"{CargaHoraria}\", \"{Professores}\");";
+                    "(descricao, carga_horaria) " +
+                    $"VALUES (\"{Nome}\", {CargaHoraria});";
 
             long idMateria = BancoDeDados.Insert(sqlInserirMateria);
             this.Id = idMateria;
+        }
+
+        public void Deletar()
+        {
+            string sqlDeletarMateria = $"DELETE FROM materia WHERE id = {Id};";
+            BancoDeDados.Delete(sqlDeletarMateria);
         }
     }
 }

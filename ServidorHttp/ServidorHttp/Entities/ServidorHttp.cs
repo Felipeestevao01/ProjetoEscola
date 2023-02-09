@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text;
+using Dao;
 using Entities;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -27,7 +28,7 @@ namespace ProjetoEscola.Entities
             Console.WriteLine($"Escutando na porta {Porta}...");
 
             while (true)
-            {
+                {
                 HttpListenerContext context = listener.GetContext();
                 HttpListenerRequest req = context.Request;
 
@@ -39,7 +40,7 @@ namespace ProjetoEscola.Entities
                 var path = req.RawUrl;
                 string data = "";
 
-                if(req.HttpMethod == "GET")
+                if (req.HttpMethod == "GET")
                 {
                     //API alunos
                     if (path == "/aluno")
@@ -87,7 +88,6 @@ namespace ProjetoEscola.Entities
                         data = JsonSerializer.Serialize(notas);
                     }
 
-
                     //API trabalhos
                     else if (path == "/trabalho")
                     {
@@ -96,11 +96,17 @@ namespace ProjetoEscola.Entities
                         List<Trabalho> trabalhos = Trabalho.GetAll();
                         data = JsonSerializer.Serialize(trabalhos);
                     }
+
+                    //API matricula
+                    else if (path == "/matricula")
+                    {
+                        Matricula matriculaAtual = Matricula.GetById(2);
+                        data = JsonSerializer.Serialize(matriculaAtual);
+                    }
                 }
-                else if(req.HttpMethod == "POST")
+                else if (req.HttpMethod == "POST")
                 {
                     string jsonText;
-
                     using (var reader = new StreamReader(req.InputStream, req.ContentEncoding))
                     {
                         jsonText = reader.ReadToEnd();
@@ -113,12 +119,38 @@ namespace ProjetoEscola.Entities
 
                         data = JsonSerializer.Serialize(aluno);
                     }
+                    else if (path == "/aluno/update")
+                    {
+                        Aluno aluno = JsonConvert.DeserializeObject<Aluno>(jsonText);
+                        if (aluno.Id != 0)
+                        {
+                            aluno.Atualizar();
+                        }
+                        else
+                        {
+                            resp.StatusCode = 400;
+                            data = "{\"Error\":\"Update precisa de um ID.\"}";
+                        }
+                    }
                     else if (path == "/professor/new")
                     {
                         Professor professor = JsonConvert.DeserializeObject<Professor>(jsonText);
                         professor.Salvar();
 
                         data = JsonSerializer.Serialize(professor);
+                    }
+                    else if (path == "/professor/update")
+                    {
+                        Professor professor = JsonConvert.DeserializeObject<Professor>(jsonText);
+                        if (professor.Id != 0)
+                        {
+                            professor.Atualizar();
+                        }
+                        else
+                        {
+                            resp.StatusCode = 400;
+                            data = "{\"Error\":\"Update precisa de um ID.\"}";
+                        }
                     }
                     else if (path == "/curso/new")
                     {
@@ -133,6 +165,77 @@ namespace ProjetoEscola.Entities
                         materia.Salvar();
 
                         data = JsonSerializer.Serialize(materia);
+                    }
+                    else if (path == "/nota/new")
+                    {
+                        Nota nota = JsonConvert.DeserializeObject<Nota>(jsonText);
+                        nota.Salvar();
+
+                        data = JsonSerializer.Serialize(nota);
+                    }
+                    else if (path == "/trabalho/new")
+                    {
+                        Trabalho trabalho = JsonConvert.DeserializeObject<Trabalho>(jsonText);
+                        trabalho.Salvar();
+
+                        data = JsonSerializer.Serialize(trabalho);
+                    }
+                    else if (path == "/matricula/new")
+                    {
+                        Matricula matricula = JsonConvert.DeserializeObject<Matricula>(jsonText);
+                        matricula.Salvar();
+
+                        data = JsonSerializer.Serialize(matricula);
+                    }
+                }
+                else if (req.HttpMethod == "DELETE")
+                {
+                    string jsonText;
+                    using (var reader = new StreamReader(req.InputStream, req.ContentEncoding))
+                    {
+                        jsonText = reader.ReadToEnd();
+                    }
+                    if(path == "/aluno/delete")
+                    {
+                        Aluno aluno = JsonConvert.DeserializeObject<Aluno>(jsonText);
+                        aluno.Deletar();
+                        
+
+                    }
+                    else if (path == "/curso/delete")
+                    {
+                        Curso curso = JsonConvert.DeserializeObject<Curso>(jsonText);
+                        curso.Deletar();
+                    }
+                    else if (path == "/materia/delete")
+                    {
+                        Materia materia = JsonConvert.DeserializeObject<Materia>(jsonText);
+                        materia.Deletar();
+                    }
+                    else if (path == "/matricula/delete")
+                    {
+                        Matricula matricula = JsonConvert.DeserializeObject<Matricula>(jsonText);
+                        matricula.Deletar();
+                    }
+                    else if (path == "/pessoa/delete")
+                    {
+                        Pessoa pessoa = JsonConvert.DeserializeObject<Pessoa>(jsonText);
+                        pessoa.Deletar();
+                    }
+                    else if (path == "/professor/delete")
+                    {
+                        Professor professor = JsonConvert.DeserializeObject<Professor>(jsonText);
+                        professor.Deletar();
+                    }
+                    else if (path == "/questao/delete")
+                    {
+                        Questao questao = JsonConvert.DeserializeObject<Questao>(jsonText);
+                        questao.Deletar();
+                    }
+                    else if (path == "/trabalho/delete")
+                    {
+                        Trabalho trabalho = JsonConvert.DeserializeObject<Trabalho>(jsonText);
+                        trabalho.Deletar();
                     }
                 }
 

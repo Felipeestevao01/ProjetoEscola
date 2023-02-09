@@ -93,5 +93,7 @@ FOREIGN KEY(id_aluno) REFERENCES aluno(id),
 id_curso INT,
 FOREIGN KEY(id_curso) REFERENCES curso(id));
 
-
+ALTER TABLE nota
+ADD id_aluno INT NOT NULL, 
+ADD FOREIGN KEY(id_aluno) REFERENCES aluno(id);
 

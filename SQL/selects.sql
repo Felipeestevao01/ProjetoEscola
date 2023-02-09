@@ -131,22 +131,22 @@ FROM
 		WHERE
 	nota.id = 1;
     
-    SELECT 
+	SELECT 
 	nota.id, 
-    valor_nota,
-    pessoa.nome,
-    pessoa.sobrenome,
-    pessoa.telefone,
-    pessoa.cpf,
-    pessoa.endereco,
-    pessoa.email,
-    pessoa.data_aniversario,
-    professor.id,
-    professor.salario,
-    trabalho.id as "trabalho_id",
-    descricao,
-    data_trabalho
-FROM
+	valor_nota,
+	pessoa.nome,
+	pessoa.sobrenome,
+	pessoa.telefone,
+	pessoa.cpf,
+	pessoa.endereco,
+	pessoa.email,
+	pessoa.data_aniversario,
+	professor.id,
+	professor.salario,
+	trabalho.id as "trabalho_id",
+	descricao,
+	data_trabalho
+		FROM
 	nota
 		INNER JOIN
     pessoa
@@ -155,7 +155,29 @@ FROM
         INNER JOIN
     trabalho ON professor.id = trabalho.id_professor AND trabalho.id = 1;
     
-    
-    select * from aluno;
-    SELECT * FROM pessoa;
-    select * FROM curso;
+    -- Select de 1 matricula referente a 1 aluno e 1 curso especifico.
+    SELECT 
+    matricula.id AS "matricula_id",
+    matricula.ativa,
+    pessoa.nome AS "nome_aluno",
+    pessoa.sobrenome,
+    pessoa.telefone,
+    pessoa.cpf,
+    pessoa.endereco,
+    pessoa.email,
+    pessoa.data_aniversario,
+    aluno.id AS "aluno_id",
+    aluno.numero_falta,
+    curso.id AS "curso_id",
+    curso.nome AS "curso_nome",
+    curso.carga_horaria,
+    curso.ativo
+        FROM
+	matricula 
+		INNER JOIN
+	pessoa
+		INNER JOIN
+	aluno ON pessoa.id = aluno.id_pessoa AND aluno.id = matricula.id_aluno AND matricula.id = 1
+		INNER JOIN
+	curso ON curso.id = matricula.id_curso;
+		

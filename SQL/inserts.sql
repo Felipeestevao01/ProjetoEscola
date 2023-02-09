@@ -31,10 +31,13 @@ INSERT INTO trabalho(descricao, data_trabalho, id_professor)
 VALUES("", "", ""); 
 
 -- Inserir Nota
-INSERT INTO nota(valor_nota, id_trabalho)
-VALUES ("" , "");
+INSERT INTO nota(valor_nota, id_trabalho, id_aluno)
+VALUES ("" , "", "");
 
 -- Tabela intermediaria Professor X Materia
 INSERT INTO professor_materias(id_materia, id_professor)
 VALUES("", "");
 
+-- Inserir Matricula
+INSERT INTO matricula (ativa, id_aluno, id_curso)
+VALUES("", "", "");

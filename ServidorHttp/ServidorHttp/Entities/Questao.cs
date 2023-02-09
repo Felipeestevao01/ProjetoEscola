@@ -59,5 +59,11 @@ namespace ProjetoEscola.Entities
             }
             return lista;
         }
+
+        public void Deletar()
+        {
+            string sqlDeletarQuestao = $"DELETE FROM questoes WHERE id = {Id};";
+            BancoDeDados.Delete(sqlDeletarQuestao);
+        }
     }
 }

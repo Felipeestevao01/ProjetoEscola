@@ -7,7 +7,7 @@ namespace Entities
 {
     internal class Pessoa
     {
-        public long Id { get; set; }
+        public long IdPessoa { get; set; }
         public DateTime DataAniversario { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
@@ -31,9 +31,9 @@ namespace Entities
             Email = email;
         }
 
-        public Pessoa(long id, DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email)
+        public Pessoa(long idPessoa, DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email)
         {
-            Id = id;
+            IdPessoa = idPessoa;
             DataAniversario = dataAniversario;
             Nome = nome;
             Sobrenome = sobrenome;
@@ -56,7 +56,24 @@ namespace Entities
                 $"(\"{Nome}\", \"{Sobrenome}\", \"{Telefone}\", \"{Cpf}\", \"{Endereco}\", \"{Email}\", \"{DataAniversario.ToString("yyyy-MM-ddTHH:mm:ss")}\");";
 
             long id = BancoDeDados.Insert(sqlInserirPessoa);
-            this.Id = id;
+            this.IdPessoa = id;
+        }
+
+        public void Deletar()
+        {
+            string sqlDeletarPessoa = $"DELETE FROM pessoa WHERE id = {IdPessoa};";
+            BancoDeDados.Delete(sqlDeletarPessoa);
+        }
+
+        public void Atualizar()
+        {
+            string sqlAtualizarPessoa =
+                "UPDATE pessoa " +
+                $"SET nome = \"{Nome}\", sobrenome = \"{Sobrenome}\", telefone = \"{Telefone}\", cpf = \"{Cpf}\", endereco = \"{Endereco}\", " +
+                $"email = \"{Email}\", data_aniversario = \"{DataAniversario.ToString("yyyy-MM-ddTHH:mm:ss")}\" " +
+                $"WHERE id = \"{IdPessoa}\";";
+
+            BancoDeDados.Update(sqlAtualizarPessoa);
         }
     }
 }
