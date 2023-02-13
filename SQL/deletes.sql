@@ -32,3 +32,8 @@ WHERE
 DELETE FROM questoes 
 WHERE
 	id = "";
+
+-- Deletar na tabela intermediaria
+DELETE FROM professor_materias
+WHERE id_professor = "" AND id_materia = "";
+

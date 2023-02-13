@@ -19,23 +19,23 @@ namespace Entities
 
         public Nota(int id, double valorNota)
         {
-            Id = id;
-            ValorNota = valorNota;
+            this.Id = id;
+            this.ValorNota = valorNota;
         }
 
         public Nota(int id, double valorNota, Trabalho trabalho)
         {
-            Id = id;
-            ValorNota = valorNota;
-            Trabalho = trabalho;
+            this.Id = id;
+            this.ValorNota = valorNota;
+            this.Trabalho = trabalho;
         }
 
         public Nota(int id, double valorNota, Trabalho trabalho, Aluno aluno)
         {
-            Id = id;
-            ValorNota = valorNota;
-            Trabalho = trabalho;
-            Aluno = aluno;
+            this.Id = id;
+            this.ValorNota = valorNota;
+            this.Trabalho = trabalho;
+            this.Aluno = aluno;
         }
 
         public static Nota GetById(int id)
@@ -133,8 +133,14 @@ namespace Entities
 
         public void Deletar()
         {
-            string sqlDeletarNota = $"DELETE FROM nota WHERE id = {Id};";
+            string sqlDeletarNota = $"DELETE FROM nota WHERE id = {this.Id};";
             BancoDeDados.Delete(sqlDeletarNota);
+        }
+
+        public void Atualizar()
+        {
+            string sqlAtualizarNota = $"UPDATE nota SET valor_nota = {ValorNota} WHERE id = \"{this.Id}\";";
+            BancoDeDados.Update(sqlAtualizarNota);
         }
     }
 }

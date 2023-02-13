@@ -41,3 +41,7 @@ VALUES("", "");
 -- Inserir Matricula
 INSERT INTO matricula (ativa, id_aluno, id_curso)
 VALUES("", "", "");
+
+-- Inserir Questão
+INSERT INTO questoes (descricao, escolha)
+VALUES("", "");

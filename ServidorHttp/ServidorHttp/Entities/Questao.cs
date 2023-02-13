@@ -1,4 +1,5 @@
 ﻿using Dao;
+using Entities;
 using MySql.Data.MySqlClient;
 using System.Data;
 
@@ -6,7 +7,7 @@ namespace ProjetoEscola.Entities
 {
     internal class Questao
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Descricao { get; set; }
         public string Escolha { get; set; }
 
@@ -14,11 +15,11 @@ namespace ProjetoEscola.Entities
         {
         }
 
-        public Questao(int id, string descricao, string escolha)
+        public Questao(long id, string descricao, string escolha)
         {
-            Id = id;
-            Descricao = descricao;
-            Escolha = escolha;
+            this.Id = id;
+            this.Descricao = descricao;
+            this.Escolha = escolha;
         }
 
         public static Questao GetById(int id)
@@ -59,11 +60,23 @@ namespace ProjetoEscola.Entities
             }
             return lista;
         }
+        public void Salvar()
+        {
+            string sqlInserirQuestao = $"INSERT INTO questoes (descricao, escolha) VALUES(\"{this.Descricao}\", \"{this.Escolha}\");";
 
+            long idQuestao = BancoDeDados.Insert(sqlInserirQuestao);
+            this.Id = idQuestao;
+        }
         public void Deletar()
         {
-            string sqlDeletarQuestao = $"DELETE FROM questoes WHERE id = {Id};";
+            string sqlDeletarQuestao = $"DELETE FROM questoes WHERE id = {this.Id};";
             BancoDeDados.Delete(sqlDeletarQuestao);
+        }
+
+        public void Atualizar()
+        {
+            string sqlAtualizarQuestao = $"UPDATE questoes SET descricao = \"{this.Descricao}\", escolha = \"{this.Escolha}\" WHERE id = \"{this.Id}\";";
+            BancoDeDados.Update(sqlAtualizarQuestao);
         }
     }
 }

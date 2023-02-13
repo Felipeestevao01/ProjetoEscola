@@ -18,17 +18,17 @@ namespace Entities
 
         public Trabalho(int id, string descricao, DateTime dataTrabalho)
         {
-            Id = id;
-            Descricao = descricao;
-            DataTrabalho = dataTrabalho;
+            this.Id = id;
+            this.Descricao = descricao;
+            this.DataTrabalho = dataTrabalho;
         }
 
         public Trabalho(int id, string descricao, DateTime dataTrabalho, Professor professor)
         {
-            Id = id;
-            Descricao = descricao;
-            DataTrabalho = dataTrabalho;
-            Professor = professor;
+            this.Id = id;
+            this.Descricao = descricao;
+            this.DataTrabalho = dataTrabalho;
+            this.Professor = professor;
         }
 
         public static Trabalho GetById(int id)
@@ -109,7 +109,7 @@ namespace Entities
         {
             string sqlInserirTrabalho =
                 "INSERT INTO trabalho(descricao, data_trabalho, id_professor) " +
-                $"VALUES(\"{Descricao}\", \"{DataTrabalho.ToString("yyyy-MM-ddTHH:mm:ss")}\", {Professor.Id});";
+                $"VALUES(\"{this.Descricao}\", \"{this.DataTrabalho.ToString("yyyy-MM-ddTHH:mm:ss")}\", {this.Professor.Id});";
 
             long idTrabalho = BancoDeDados.Insert(sqlInserirTrabalho);
             this.Id = idTrabalho;
@@ -117,8 +117,15 @@ namespace Entities
 
         public void Deletar()
         {
-            string sqlDeletarTrabalho = $"DELETE FROM trabalho WHERE id = {Id};";
+            string sqlDeletarTrabalho = $"DELETE FROM trabalho WHERE id = {this.Id};";
             BancoDeDados.Delete(sqlDeletarTrabalho);
+        }
+
+        public void Atualizar()
+        {
+            string sqlAtualizarTrabalho = $"UPDATE trabalho SET descricao = \"{this.Descricao}\"," +
+                $" data_trabalho = \"{this.DataTrabalho.ToString("yyyy-MM-ddTHH:mm:ss")}\" WHERE id = \"{this.Id}\";";
+            BancoDeDados.Update(sqlAtualizarTrabalho);
         }
     }
 }

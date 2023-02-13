@@ -19,35 +19,35 @@ namespace Entities
 
         public Materia(string nome, double cargaHoraria)
         {
-            Nome = nome;
-            CargaHoraria = cargaHoraria;
+            this.Nome = nome;
+            this.CargaHoraria = cargaHoraria;
         }
 
         public Materia(long id, string nome, double cargaHoraria)
         {
-            Id = id;
-            Nome = nome;
-            CargaHoraria = cargaHoraria;
+            this.Id = id;
+            this.Nome = nome;
+            this.CargaHoraria = cargaHoraria;
         }
 
         public Materia(long id, string nome, double cargaHoraria, List<Professor> professores)
         {
-            Id = id;
-            Nome = nome;
-            CargaHoraria = cargaHoraria;
-            Professores = professores;
+            this.Id = id;
+            this.Nome = nome;
+            this.CargaHoraria = cargaHoraria;
+            this.Professores = professores;
         }
 
         public Materia(long id, string nome, double cargaHoraria, List<Professor> professores, List<Curso> cursos)
         {
-            Id = id;
-            Nome = nome;
-            CargaHoraria = cargaHoraria;
-            Professores = professores;
-            Cursos = cursos;
+            this.Id = id;
+            this.Nome = nome;
+            this.CargaHoraria = cargaHoraria;
+            this.Professores = professores;
+            this.Cursos = cursos;
         }
 
-        public static Materia GetById(int id)
+        public static Materia GetById(long id)
         {
             // Select para buscar a materia especifica.
             string sqlQueryMateria = $"SELECT id, descricao, carga_horaria FROM materia WHERE id = {id};";
@@ -133,7 +133,7 @@ namespace Entities
 
             foreach (DataRow linha in dataTable.Rows)
             {
-                Materia novaMateria = new(
+                Materia novaMateria = new Materia(
                    (int)linha["id"],
                    (string)linha["descricao"],
                    (double)linha["carga_horaria"]
@@ -149,7 +149,7 @@ namespace Entities
             string sqlInserirMateria =
                     "INSERT INTO materia " +
                     "(descricao, carga_horaria) " +
-                    $"VALUES (\"{Nome}\", {CargaHoraria});";
+                    $"VALUES (\"{this.Nome}\", {this.CargaHoraria});";
 
             long idMateria = BancoDeDados.Insert(sqlInserirMateria);
             this.Id = idMateria;
@@ -157,8 +157,50 @@ namespace Entities
 
         public void Deletar()
         {
-            string sqlDeletarMateria = $"DELETE FROM materia WHERE id = {Id};";
+            string sqlDeletarMateria = $"DELETE FROM materia WHERE id = {this.Id};";
             BancoDeDados.Delete(sqlDeletarMateria);
+        }
+
+        public static void DeletarProfessorMateria(Professor professor, Materia materia)
+        {
+            string sql = $"DELETE FROM professor_materias WHERE id_professor = {professor.Id} AND id_materia = {materia.Id}";
+            BancoDeDados.Delete(sql);
+        }
+
+        public static void AdicionarProfessorMateria(Professor professor, Materia materia)
+        {
+            string sql = $"INSERT INTO professor_materias (id_materia, id_professor) VALUES ({materia.Id}, {professor.Id});";
+            BancoDeDados.Insert(sql);
+
+        }
+
+        public void Atualizar()
+        {
+            string sqlAtualizarMateria = $"UPDATE materia SET descricao = \"{this.Nome}\", carga_horaria = {this.CargaHoraria} WHERE id = \"{this.Id}\";";
+            BancoDeDados.Update(sqlAtualizarMateria);
+        }
+
+        
+        public void SincronizarProfessores()
+        {
+            Materia materiaDoBanco = Materia.GetById(Id);
+
+            foreach(Professor professorAtual in this.Professores)
+            {
+                if (!materiaDoBanco.Professores.Contains(professorAtual))
+                {
+                    Materia.AdicionarProfessorMateria(professorAtual, this);
+                }
+            }
+
+            foreach(Professor professorBanco in materiaDoBanco.Professores)
+            {
+                if (!Professores.Contains(professorBanco))
+                {
+                    Materia.DeletarProfessorMateria(professorBanco, this);
+                }
+            }
+
         }
     }
 }

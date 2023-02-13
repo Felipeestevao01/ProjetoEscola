@@ -17,17 +17,17 @@ namespace Entities
 
         public Curso(string nome, double cargaHoraria, bool ativo)
         {
-            Nome = nome;
-            CargaHoraria = cargaHoraria;
-            Ativo = ativo;
+            this.Nome = nome;
+            this.CargaHoraria = cargaHoraria;
+            this.Ativo = ativo;
         }
 
         public Curso(long id, string nome, double cargaHoraria, bool ativo)
         {
-            Id = id;
-            Nome = nome;
-            CargaHoraria = cargaHoraria;
-            Ativo = ativo;
+            this.Id = id;
+            this.Nome = nome;
+            this.CargaHoraria = cargaHoraria;
+            this.Ativo = ativo;
         }
 
 
@@ -77,7 +77,7 @@ namespace Entities
             string sqlInserirCurso =
                     "INSERT INTO curso (nome, carga_horaria, ativo) " +
                     $"VALUES " +
-                    $"(\"{Nome}\", {CargaHoraria}, {Ativo}); ";
+                    $"(\"{this.Nome}\", {this.CargaHoraria}, {this.Ativo});";
 
             long idCurso = BancoDeDados.Insert(sqlInserirCurso);
             this.Id = idCurso;
@@ -85,8 +85,14 @@ namespace Entities
 
         public void Deletar()
         {
-            string sqlDeletarCurso = $"DELETE FROM curso WHERE id = {Id};";
+            string sqlDeletarCurso = $"DELETE FROM curso WHERE id = {this.Id};";
             BancoDeDados.Delete(sqlDeletarCurso);
+        }
+
+        public void Atualizar()
+        {
+            string sqlAtualizarCurso = $"UPDATE curso SET nome = \"{this.Nome}\", carga_horaria = {this.CargaHoraria}, ativo = {this.Ativo} WHERE id = \"{this.Id}\";";
+            BancoDeDados.Update(sqlAtualizarCurso);
         }
     }
 }

@@ -49,9 +49,9 @@ namespace Dao
             return command.ExecuteNonQuery();
         }
 
-        public static long Update(string sqlDelete)
+        public static long Update(string sqlUpdate)
         {
-            MySqlCommand command = new MySqlCommand(sqlDelete, BancoDeDados.GetConnection());
+            MySqlCommand command = new MySqlCommand(sqlUpdate, BancoDeDados.GetConnection());
             return command.ExecuteNonQuery();
         }
     }

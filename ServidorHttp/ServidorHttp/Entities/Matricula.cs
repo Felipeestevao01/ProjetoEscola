@@ -24,17 +24,17 @@ namespace Entities
 
         public Matricula(int id, bool ativa, Aluno aluno)
         {
-            Id = id;
-            Ativa = ativa;
-            Aluno = aluno;
+            this.Id = id;
+            this.Ativa = ativa;
+            this.Aluno = aluno;
         }
 
         public Matricula(int id, bool ativa, Aluno aluno, Curso curso)
         {
-            Id = id;
-            Ativa = ativa;
-            Aluno = aluno;
-            Curso = curso;
+            this.Id = id;
+            this.Ativa = ativa;
+            this.Aluno = aluno;
+            this.Curso = curso;
         }
 
         public static Matricula GetById(int id)
@@ -81,7 +81,7 @@ namespace Entities
         {
             string sqlInserirMatricula =
                 "INSERT INTO matricula (ativa, id_aluno, id_curso) " +
-                $"VALUES({Ativa}, {Aluno.Id}, {Curso.Id}); ";
+                $"VALUES({this.Ativa}, {Aluno.Id}, {Curso.Id}); ";
 
             long idMatricula = BancoDeDados.Insert(sqlInserirMatricula);
             this.Id = idMatricula;
@@ -89,8 +89,14 @@ namespace Entities
 
         public void Deletar()
         {
-            string sqlDeletarMatricula = $"DELETE FROM matricula WHERE id = {Id};";
+            string sqlDeletarMatricula = $"DELETE FROM matricula WHERE id = {this.Id};";
             BancoDeDados.Delete(sqlDeletarMatricula);
+        }
+
+        public void Atualizar()
+        {
+            string sqlAtualizarMatricula = $"UPDATE matricula SET ativa = {this.Ativa} WHERE id = \"{this.Id}\";";
+            BancoDeDados.Update(sqlAtualizarMatricula);
         }
     }
 }

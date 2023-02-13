@@ -14,18 +14,18 @@ namespace ProjetoEscola.Entities
 
         public ServidorHttp(string dominio, int porta)
         {
-            Porta = porta;
-            Dominio = dominio;
+            this.Porta = porta;
+            this.Dominio = dominio;
         }
 
         public void Servir()
         {
             using var listener = new HttpListener();
-            listener.Prefixes.Add($"{Dominio}:{Porta}/");
+            listener.Prefixes.Add($"{this.Dominio}:{this.Porta}/");
 
             listener.Start();
 
-            Console.WriteLine($"Escutando na porta {Porta}...");
+            Console.WriteLine($"Escutando na porta {this.Porta}...");
 
             while (true)
                 {
@@ -68,8 +68,10 @@ namespace ProjetoEscola.Entities
                     //API materias
                     else if (path == "/materia")
                     {
-                        Materia materiaAtual = Materia.GetById(1);
-                        data = JsonSerializer.Serialize(materiaAtual);
+                        //Materia materiaAtual = Materia.GetById(1);
+                        //data = JsonSerializer.Serialize(materiaAtual);
+                        List<Materia> materia = Materia.GetAll();
+                        data = JsonSerializer.Serialize(materia);
                     }
 
                     //API questões
@@ -122,7 +124,7 @@ namespace ProjetoEscola.Entities
                     else if (path == "/aluno/update")
                     {
                         Aluno aluno = JsonConvert.DeserializeObject<Aluno>(jsonText);
-                        if (aluno.Id != 0)
+                        if (aluno.Id > 0)
                         {
                             aluno.Atualizar();
                         }
@@ -142,7 +144,7 @@ namespace ProjetoEscola.Entities
                     else if (path == "/professor/update")
                     {
                         Professor professor = JsonConvert.DeserializeObject<Professor>(jsonText);
-                        if (professor.Id != 0)
+                        if (professor.Id > 0)
                         {
                             professor.Atualizar();
                         }
@@ -159,12 +161,45 @@ namespace ProjetoEscola.Entities
 
                         data = JsonSerializer.Serialize(curso);
                     }
+                    else if (path == "/curso/update")
+                    {
+                        Curso curso = JsonConvert.DeserializeObject<Curso>(jsonText);
+                        if (curso.Id > 0)
+                        {
+                            curso.Atualizar();
+                        }
+                        else
+                        {
+                            resp.StatusCode = 400;
+                            data = "{\"Error\":\"Update precisa de um ID.\"}";
+                        }
+                    }
                     else if (path == "/materia/new")
                     {
                         Materia materia = JsonConvert.DeserializeObject<Materia>(jsonText);
                         materia.Salvar();
 
                         data = JsonSerializer.Serialize(materia);
+                    }
+                    else if (path == "/materia/update")
+                    {
+                        Materia materia = JsonConvert.DeserializeObject<Materia>(jsonText);
+                        if (materia.Id > 0)
+                        {
+                            materia.Atualizar();
+                        }
+                        else
+                        {
+                            resp.StatusCode = 400;
+                            data = "{\"Error\":\"Update precisa de um ID.\"}";
+                        }
+                    }
+                    else if (path == "/materia/professor/adicionar")
+                    {
+                        //Dictionary<string, Object> jsonDict = JsonConvert.DeserializeObject<Dictionary<string, Object>>(jsonText);
+                        Materia materia = JsonConvert.DeserializeObject<Materia>(jsonText);
+                        materia.SincronizarProfessores();
+                        int a = 1;
                     }
                     else if (path == "/nota/new")
                     {
@@ -173,6 +208,19 @@ namespace ProjetoEscola.Entities
 
                         data = JsonSerializer.Serialize(nota);
                     }
+                    else if (path == "/nota/update")
+                    {
+                        Nota nota = JsonConvert.DeserializeObject<Nota>(jsonText);
+                        if (nota.Id > 0)
+                        {
+                            nota.Atualizar();
+                        }
+                        else
+                        {
+                            resp.StatusCode = 400;
+                            data = "{\"Error\":\"Update precisa de um ID.\"}";
+                        }
+                    }
                     else if (path == "/trabalho/new")
                     {
                         Trabalho trabalho = JsonConvert.DeserializeObject<Trabalho>(jsonText);
@@ -180,12 +228,58 @@ namespace ProjetoEscola.Entities
 
                         data = JsonSerializer.Serialize(trabalho);
                     }
+                    else if (path == "/trabalho/update")
+                    {
+                        Trabalho trabalho = JsonConvert.DeserializeObject<Trabalho>(jsonText);
+                        if (trabalho.Id > 0)
+                        {
+                            trabalho.Atualizar();
+                        }
+                        else
+                        {
+                            resp.StatusCode = 400;
+                            data = "{\"Error\":\"Update precisa de um ID.\"}";
+                        }
+                    }
                     else if (path == "/matricula/new")
                     {
                         Matricula matricula = JsonConvert.DeserializeObject<Matricula>(jsonText);
                         matricula.Salvar();
 
                         data = JsonSerializer.Serialize(matricula);
+                    }
+                    else if (path == "/matricula/update")
+                    {
+                        Matricula matricula = JsonConvert.DeserializeObject<Matricula>(jsonText);
+                        if (matricula.Id > 0)
+                        {
+                            matricula.Atualizar();
+                        }
+                        else
+                        {
+                            resp.StatusCode = 400;
+                            data = "{\"Error\":\"Update precisa de um ID.\"}";
+                        }
+                    }
+                    else if (path == "/questao/new")
+                    {
+                        Questao questao = JsonConvert.DeserializeObject<Questao>(jsonText);
+                        questao.Salvar();
+
+                        data = JsonSerializer.Serialize(questao);
+                    }
+                    else if (path == "/questao/update")
+                    {
+                        Questao questao = JsonConvert.DeserializeObject<Questao>(jsonText);
+                        if (questao.Id > 0)
+                        {
+                            questao.Atualizar();
+                        }
+                        else
+                        {
+                            resp.StatusCode = 400;
+                            data = "{\"Error\":\"Update precisa de um ID.\"}";
+                        }
                     }
                 }
                 else if (req.HttpMethod == "DELETE")

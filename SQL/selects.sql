@@ -180,4 +180,14 @@ FROM
 	aluno ON pessoa.id = aluno.id_pessoa AND aluno.id = matricula.id_aluno AND matricula.id = 1
 		INNER JOIN
 	curso ON curso.id = matricula.id_curso;
+    
+    select * from materia;
+    select * from professor;
+    
+    SELECT * FROM professor_materias;
+    
+
+    
+    
+    
 		
