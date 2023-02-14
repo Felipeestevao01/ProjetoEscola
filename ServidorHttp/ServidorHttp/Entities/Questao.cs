@@ -22,7 +22,7 @@ namespace ProjetoEscola.Entities
             this.Escolha = escolha;
         }
 
-        public static Questao GetById(int id)
+        public static Questao GetById(long id)
         {
             string sqlQuery = $"SELECT id, descricao, escolha FROM questoes WHERE id = {id};";
             MySqlDataReader reader = BancoDeDados.PreparaQuery(sqlQuery);

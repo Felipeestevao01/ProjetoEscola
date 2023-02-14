@@ -55,3 +55,8 @@ UPDATE questoes
 SET descricao = "",
 escolha = ""
 WHERE id = "";
+
+select* from curso;
+select * from materia;
+SELECT* FROM materias_do_curso;
+

@@ -38,6 +38,14 @@ namespace Entities
             this.Professores = professores;
         }
 
+        public Materia(long id, string nome, double cargaHoraria, List<Curso> cursos)
+        {
+            this.Id = id;
+            this.Nome = nome;
+            this.CargaHoraria = cargaHoraria;
+            this.Cursos = cursos;
+        }
+
         public Materia(long id, string nome, double cargaHoraria, List<Professor> professores, List<Curso> cursos)
         {
             this.Id = id;
@@ -171,7 +179,18 @@ namespace Entities
         {
             string sql = $"INSERT INTO professor_materias (id_materia, id_professor) VALUES ({materia.Id}, {professor.Id});";
             BancoDeDados.Insert(sql);
+        }
 
+        public static void DeletarCursoMateria(Curso curso, Materia materia)
+        {
+            string sql = $"DELETE FROM materias_do_curso WHERE id_curso = {curso.Id} AND id_materia = {materia.Id}";
+            BancoDeDados.Delete(sql);
+        }
+
+        public static void AdicionarCursoMateria(Curso curso, Materia materia)
+        {
+            string sql = $"INSERT INTO materias_do_curso (id_curso, id_materia) VALUES ({curso.Id}, {materia.Id});";
+            BancoDeDados.Insert(sql);
         }
 
         public void Atualizar()
@@ -200,7 +219,27 @@ namespace Entities
                     Materia.DeletarProfessorMateria(professorBanco, this);
                 }
             }
+        }
 
+        public void SincronizarCurso()
+        {
+            Materia materiaDoBanco = Materia.GetById(Id);
+
+            foreach (Curso cursoAtual in this.Cursos)
+            {
+                if (!materiaDoBanco.Cursos.Contains(cursoAtual))
+                {
+                    Materia.AdicionarCursoMateria(cursoAtual, this);
+                }
+            }
+
+            foreach (Curso cursoBanco in materiaDoBanco.Cursos)
+            {
+                if (!Cursos.Contains(cursoBanco))
+                {
+                    Materia.DeletarCursoMateria(cursoBanco, this);
+                }
+            }
         }
     }
 }

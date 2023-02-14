@@ -93,10 +93,10 @@ namespace ProjetoEscola.Entities
                     //API trabalhos
                     else if (path == "/trabalho")
                     {
-                        //Trabalho trabalhoAtual = Trabalho.GetById(1);
-                        //data = JsonSerializer.Serialize(trabalhoAtual);
-                        List<Trabalho> trabalhos = Trabalho.GetAll();
-                        data = JsonSerializer.Serialize(trabalhos);
+                        Trabalho trabalhoAtual = Trabalho.GetById(1);
+                        data = JsonSerializer.Serialize(trabalhoAtual);
+                        //List<Trabalho> trabalhos = Trabalho.GetAll();
+                        //data = JsonSerializer.Serialize(trabalhos);
                     }
 
                     //API matricula
@@ -196,10 +196,13 @@ namespace ProjetoEscola.Entities
                     }
                     else if (path == "/materia/professor/adicionar")
                     {
-                        //Dictionary<string, Object> jsonDict = JsonConvert.DeserializeObject<Dictionary<string, Object>>(jsonText);
                         Materia materia = JsonConvert.DeserializeObject<Materia>(jsonText);
                         materia.SincronizarProfessores();
-                        int a = 1;
+                    }
+                    else if (path == "/materia/curso/adicionar")
+                    {
+                        Materia materia = JsonConvert.DeserializeObject<Materia>(jsonText);
+                        materia.SincronizarCurso();
                     }
                     else if (path == "/nota/new")
                     {
@@ -240,6 +243,11 @@ namespace ProjetoEscola.Entities
                             resp.StatusCode = 400;
                             data = "{\"Error\":\"Update precisa de um ID.\"}";
                         }
+                    }
+                    else if (path == "/trabalho/questao/adicionar")
+                    {
+                        Trabalho trabalho = JsonConvert.DeserializeObject<Trabalho>(jsonText);
+                        trabalho.SincronizarQuestoes();
                     }
                     else if (path == "/matricula/new")
                     {
