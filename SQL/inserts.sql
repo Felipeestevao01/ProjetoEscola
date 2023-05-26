@@ -45,3 +45,9 @@ VALUES("", "", "");
 -- Inserir Questão
 INSERT INTO questoes (descricao, escolha)
 VALUES("", "");
+
+-- Inserir na tabela intermediaria
+SELECT * FROM professor_materias;
+
+INSERT INTO professor_materias (id_materia, id_professor)
+VALUES (2, 1);

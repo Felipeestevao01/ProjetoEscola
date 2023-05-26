@@ -56,7 +56,41 @@ SET descricao = "",
 escolha = ""
 WHERE id = "";
 
-select* from curso;
-select * from materia;
-SELECT* FROM materias_do_curso;
+select * from questoes;
+select * from trabalho;
+SELECT * FROM questoes_trabalhos;
+select * from materias_do_curso;
+
+SELECT * from questoes;
+SELECT* FROM questoes_trabalhos;
+SELECT * from trabalho;
+
+
+SELECT questoes.id, questoes.descricao, questoes.escolha, trabalho.id AS 'trabalho_id'
+FROM questoes
+INNER JOIN 
+questoes_trabalhos ON questoes.id = questoes_trabalhos.id_questao
+INNER JOIN
+trabalho ON trabalho.id = questoes_trabalhos.id_trabalho AND questoes_trabalhos.id_trabalho = 2;
+
+
+select * from pessoa;
+select * from aluno;
+
+SELECT 
+    pessoa.nome,
+    pessoa.sobrenome,
+    pessoa.telefone,
+    pessoa.cpf,
+    pessoa.endereco,
+    pessoa.email,
+    pessoa.data_aniversario,
+    aluno.id,
+    aluno.numero_falta
+FROM
+    pessoa
+        INNER JOIN
+    aluno
+WHERE
+    pessoa.id = aluno.id_pessoa;
 

@@ -43,12 +43,33 @@ namespace ProjetoEscola.Entities
                 if (req.HttpMethod == "GET")
                 {
                     //API alunos
-                    if (path == "/aluno")
+                    if (path.Contains("/aluno"))
                     {
-                        Aluno alunoAtual = Aluno.GetById(1);
-                        data = JsonSerializer.Serialize(alunoAtual);
-                        //List<Aluno> alunos = Aluno.GetAll();
-                        //data = JsonSerializer.Serialize(alunos);
+                        string[] urlComponentes = path.Split('/');
+
+                        if(urlComponentes.Length == 2)
+                        {
+                            List<Aluno> alunos = Aluno.GetAll();
+                            data = JsonSerializer.Serialize(alunos);
+                        }
+                        else if(urlComponentes.Length == 3)
+                        {
+                            string segundoComponente = urlComponentes[2];
+                            long id;
+                            try
+                            {
+                                id = int.Parse(segundoComponente);
+                                Aluno aluno = Aluno.GetById(id);
+                                data = JsonSerializer.Serialize(aluno);
+                            }
+                            catch (Exception e)
+                            {
+                            }
+                        }
+                        else if(urlComponentes.Length == 4)
+                        {
+
+                        }
                     }
 
                     //API cursos
@@ -93,10 +114,10 @@ namespace ProjetoEscola.Entities
                     //API trabalhos
                     else if (path == "/trabalho")
                     {
-                        Trabalho trabalhoAtual = Trabalho.GetById(1);
-                        data = JsonSerializer.Serialize(trabalhoAtual);
-                        //List<Trabalho> trabalhos = Trabalho.GetAll();
-                        //data = JsonSerializer.Serialize(trabalhos);
+                        //Trabalho trabalhoAtual = Trabalho.GetById(1);
+                        //data = JsonSerializer.Serialize(trabalhoAtual);
+                        List<Trabalho> trabalhos = Trabalho.GetAll();
+                        data = JsonSerializer.Serialize(trabalhos);
                     }
 
                     //API matricula
@@ -114,25 +135,30 @@ namespace ProjetoEscola.Entities
                         jsonText = reader.ReadToEnd();
                     }
 
-                    if (path == "/aluno/new")
+                    if (path.Contains("/aluno"))
                     {
-                        Aluno aluno = JsonConvert.DeserializeObject<Aluno>(jsonText);
-                        aluno.Salvar();
+                        string[] urlComponentes = path.Split('/');
 
-                        data = JsonSerializer.Serialize(aluno);
-                    }
-                    else if (path == "/aluno/update")
-                    {
-                        Aluno aluno = JsonConvert.DeserializeObject<Aluno>(jsonText);
-                        if (aluno.Id > 0)
+                        if(urlComponentes.Length == 3 && urlComponentes[3] == "add")
                         {
-                            aluno.Atualizar();
+                            Aluno aluno = JsonConvert.DeserializeObject<Aluno>(jsonText);
+                            aluno.Salvar();
+                            data = JsonSerializer.Serialize(aluno);
                         }
-                        else
+
+                        else if(urlComponentes.Length == 4)
                         {
-                            resp.StatusCode = 400;
-                            data = "{\"Error\":\"Update precisa de um ID.\"}";
+                            try
+                            {
+                                Aluno alunoNovo = JsonConvert.DeserializeObject<Aluno>(jsonText);
+                                alunoNovo.Atualizar();
+                                data = "{\"Status\":\"sucesso\"}";
+                            }
+                            catch (Exception e)
+                            {
+                            }
                         }
+
                     }
                     else if (path == "/professor/new")
                     {
@@ -297,7 +323,7 @@ namespace ProjetoEscola.Entities
                     {
                         jsonText = reader.ReadToEnd();
                     }
-                    if(path == "/aluno/delete")
+                    if(path.Contains("/aluno/delete"))
                     {
                         Aluno aluno = JsonConvert.DeserializeObject<Aluno>(jsonText);
                         aluno.Deletar();
@@ -340,10 +366,9 @@ namespace ProjetoEscola.Entities
                         trabalho.Deletar();
                     }
                 }
-
                 byte[] buffer = Encoding.UTF8.GetBytes(data);
                 resp.ContentLength64 = buffer.Length;
-
+                resp.AddHeader("access-control-allow-origin", "*");
                 using Stream ros = resp.OutputStream;
                 ros.Write(buffer, 0, buffer.Length);
             }

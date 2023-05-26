@@ -22,14 +22,14 @@ namespace Entities
         }
 
         public Aluno(long idPessoa, DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email, long id, int numeroFaltas)
-    : base(idPessoa, dataAniversario, nome, sobrenome, telefone, cpf, endereco, email)
+            : base(idPessoa, dataAniversario, nome, sobrenome, telefone, cpf, endereco, email)
         {
             this.Id = id;
             this.NumeroFaltas = numeroFaltas;
         }
 
         public Aluno(DateTime dataAniversario, string nome, string sobrenome, string telefone, string cpf, string endereco, string email, long id, int numeroFaltas, List<Matricula> matriculas)
-         : base(dataAniversario, nome, sobrenome, telefone, cpf, endereco, email)
+            : base(dataAniversario, nome, sobrenome, telefone, cpf, endereco, email)
         {
             this.Id = id;
             this.NumeroFaltas = numeroFaltas;
@@ -114,7 +114,7 @@ namespace Entities
                "SELECT pessoa.nome, pessoa.sobrenome, pessoa.telefone, " +
                "pessoa.cpf, pessoa.endereco, pessoa.email, pessoa.data_aniversario, " +
                "aluno.id, aluno.numero_falta FROM pessoa INNER JOIN aluno " +
-               $"WHERE pessoa.id = aluno.id;";
+               $"WHERE pessoa.id = aluno.id_pessoa;";
             MySqlDataReader reader = BancoDeDados.PreparaQuery(sqlQuery);
 
             DataTable dataTable = new();
