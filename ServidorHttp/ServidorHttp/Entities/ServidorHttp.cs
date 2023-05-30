@@ -89,8 +89,6 @@ namespace ProjetoEscola.Entities
                     //API materias
                     else if (path == "/materia")
                     {
-                        //Materia materiaAtual = Materia.GetById(1);
-                        //data = JsonSerializer.Serialize(materiaAtual);
                         List<Materia> materia = Materia.GetAll();
                         data = JsonSerializer.Serialize(materia);
                     }
@@ -105,8 +103,6 @@ namespace ProjetoEscola.Entities
                     //API notas
                     else if (path == "/nota")
                     {
-                        //Nota notaAtual = Nota.GetById(1);
-                        //data = JsonSerializer.Serialize(notaAtual);
                         List<Nota> notas = Nota.GetAll();
                         data = JsonSerializer.Serialize(notas);
                     }
@@ -114,8 +110,6 @@ namespace ProjetoEscola.Entities
                     //API trabalhos
                     else if (path == "/trabalho")
                     {
-                        //Trabalho trabalhoAtual = Trabalho.GetById(1);
-                        //data = JsonSerializer.Serialize(trabalhoAtual);
                         List<Trabalho> trabalhos = Trabalho.GetAll();
                         data = JsonSerializer.Serialize(trabalhos);
                     }
@@ -139,7 +133,7 @@ namespace ProjetoEscola.Entities
                     {
                         string[] urlComponentes = path.Split('/');
 
-                        if(urlComponentes.Length == 3 && urlComponentes[3] == "add")
+                        if(urlComponentes.Length == 3 && urlComponentes[2] == "new")
                         {
                             Aluno aluno = JsonConvert.DeserializeObject<Aluno>(jsonText);
                             aluno.Salvar();
@@ -369,6 +363,7 @@ namespace ProjetoEscola.Entities
                 byte[] buffer = Encoding.UTF8.GetBytes(data);
                 resp.ContentLength64 = buffer.Length;
                 resp.AddHeader("access-control-allow-origin", "*");
+                resp.AddHeader("access-control-allow-methods", "*");
                 using Stream ros = resp.OutputStream;
                 ros.Write(buffer, 0, buffer.Length);
             }
