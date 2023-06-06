@@ -101,7 +101,7 @@ namespace Entities
             Pessoa pessoa = new Pessoa(this.DataAniversario, this.Nome, this.Sobrenome, this.Telefone, this.Cpf, this.Endereco, this.Email);
             pessoa.Salvar();
 
-            string sqlInserirProfessor = $"INSERT INTO aluno (numero_falta, id_pessoa VALUES (\"{this.Salario}\", \"{pessoa.IdPessoa}\");) ";
+            string sqlInserirProfessor = $"INSERT INTO professor (salario, id_pessoa) VALUES (\"{this.Salario}\", \"{pessoa.IdPessoa}\"); ";
 
             long idProfessor = BancoDeDados.Insert(sqlInserirProfessor);
             this.Id = idProfessor;
