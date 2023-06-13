@@ -46,7 +46,7 @@ namespace Entities
                 "FROM nota " +
                 "INNER JOIN pessoa " +
                 "INNER JOIN professor ON pessoa.id = professor.id_pessoa " +
-                $"INNER JOIN trabalho ON professor.id = trabalho.id_professor AND trabalho.id = {id} " +
+                $"INNER JOIN trabalho ON professor.id = trabalho.id_professor AND trabalho.id = nota.id_trabalho " +
                 $"WHERE nota.id = {id};";
             MySqlDataReader reader = BancoDeDados.PreparaQuery(sqlQuery);
 
@@ -87,7 +87,7 @@ namespace Entities
                 "FROM nota " +
                 "INNER JOIN pessoa " +
                 "INNER JOIN professor ON pessoa.id = professor.id_pessoa " +
-                $"INNER JOIN trabalho ON professor.id = trabalho.id_professor ";
+                $"INNER JOIN trabalho ON professor.id = trabalho.id_professor AND trabalho.id = nota.id_trabalho";
 
             MySqlDataReader reader = BancoDeDados.PreparaQuery(sqlQuery);
 
